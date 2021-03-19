@@ -12,7 +12,7 @@ public class eWallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="WALLET_ID")
-    private long id;
+    private Long id;
 
     @Column(name="ACCOUNT_BALANCE")
     private BigDecimal balance;
