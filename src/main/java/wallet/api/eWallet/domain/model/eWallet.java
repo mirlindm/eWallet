@@ -32,11 +32,11 @@ public class eWallet {
         this.id = id;
     }
 
-    public BigDecimal getbalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setbalance(BigDecimal balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
