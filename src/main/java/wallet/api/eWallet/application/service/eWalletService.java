@@ -1,6 +1,7 @@
 package wallet.api.eWallet.application.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import wallet.api.eWallet.domain.model.Transaction;
 import wallet.api.eWallet.domain.model.eWallet;
@@ -24,20 +25,31 @@ public class eWalletService {
 
     public boolean isElectronicWalletExisting() {
         return eWalletRepository.count() > 0;
+
     }
 
-//    public eWallet createWallet(eWallet wallet) {
-//        eWalletRepository.save(wallet);
-//    }
-
-    public eWallet createWallet(eWallet eWallet) throws Exception {
-        eWallet wallet = new eWallet();
-
-        wallet.setBalance(eWallet.getBalance());
-
-        eWalletRepository.save(wallet);
+    public eWallet getWalletById(Long id) throws Exception {
+        eWallet wallet = eWalletRepository.findById(id).
+                orElseThrow(() ->  new Exception("Wallet Not Found!"));
 
         return wallet;
+    }
+
+    public List<eWallet> getAllWallets() throws Exception {
+        List<eWallet> wallets = eWalletRepository.findAll();
+
+        if(wallets.size() == 0) {
+            throw new Exception("No wallets exist in the database");
+        }
+
+        return wallets;
+    }
+
+    public eWallet createWallet(eWallet eWallet) throws Exception {
+        //wallet.setBalance(eWallet.getBalance());
+        eWalletRepository.save(eWallet);
+
+        return eWallet;
     }
 
     public void createTransaction(Transaction transaction) throws Exception {

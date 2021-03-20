@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import wallet.api.eWallet.application.service.eWalletService;
 import wallet.api.eWallet.domain.model.eWallet;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,7 +33,7 @@ public class eWalletRestController {
      * @author Mirlind Murati
      */
     @GetMapping("/{id}")
-    public ResponseEntity<eWallet> getWalletById(@PathVariable("id") Long id) {
+    public ResponseEntity<eWallet> getWalletById(@PathVariable("id") Long id) throws Exception {
         eWallet wallet = eWalletService.getWalletById(id);
 
         return new ResponseEntity<>(wallet, HttpStatus.OK);
@@ -45,8 +46,8 @@ public class eWalletRestController {
      * @author Mirlind Murati
      */
     @GetMapping("/")
-    public ResponseEntity<CollectionModel<eWallet>> getAllWallets() throws Exception {
-        CollectionModel<eWallet> wallets = eWalletService.getAllWallets();
+    public ResponseEntity<List<eWallet>> getAllWallets() throws Exception {
+        List<eWallet> wallets = eWalletService.getAllWallets();
 
         return new ResponseEntity<>(wallets, HttpStatus.OK);
     }
