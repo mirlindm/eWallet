@@ -5,19 +5,25 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * An eWallet
+ *
+ * @author Mirlind Murati
+ */
 @Entity
-@Table(name="eWALLET")
+//@Table(name="eWALLET")
 public class eWallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="WALLET_ID")
+    //@Column(name="WALLET_ID")
     private Long id;
 
-    @Column(name="ACCOUNT_BALANCE")
+    //@Column(name="ACCOUNT_BALANCE")
     private BigDecimal balance;
 
-    @OneToMany()
+    @OneToMany
     private List<Transaction> transactions;
 
     public eWallet() {

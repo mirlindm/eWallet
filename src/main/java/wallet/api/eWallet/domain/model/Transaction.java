@@ -5,26 +5,33 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+
+
+/**
+ * A Transaction
+ *
+ * @author Mirlind Murati
+ */
 @Entity
-@Table(name = "Transaction")
+//@Table(name = "Transaction")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="TRANSACTION_ID")
-    private long id;
+    //@Column(name="TRANSACTION_ID")
+    private Long id;
 
-    @Column(name="TRANSACTION_TYPE")
+    //@Column(name="TRANSACTION_TYPE")
     private String type;
 
-    @Column(name="TRANSACTION_AMOUNT")
+    //@Column(name="TRANSACTION_AMOUNT")
     private BigDecimal amount;
 
-    @Column(name="TRANSACTION_TIME")
+    //@Column(name="TRANSACTION_TIME")
     private String timestamp;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="WALLET_ID")
+    //@JoinColumn(name="WALLET_ID")
     private eWallet wallet;
 
     public Transaction() {
