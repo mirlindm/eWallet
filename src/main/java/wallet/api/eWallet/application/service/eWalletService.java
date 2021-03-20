@@ -19,6 +19,7 @@ import java.util.List;
  * eWallet Service
  * involves the methods
  * for corresponding endpoint purpose
+ * for eWallet related activities
  * {@link eWalletRestController}
  * {@link eWalletRepository}*
  *
@@ -35,7 +36,6 @@ public class eWalletService {
 
     public boolean isElectronicWalletExisting() {
         return eWalletRepository.count() > 0;
-
     }
 
     /**
@@ -88,22 +88,7 @@ public class eWalletService {
         return newWallet;
     }
 
-    public void createTransaction(Transaction transaction) throws Exception {
-        eWallet ewallet = eWalletRepository.findById(1L).orElse(null);
 
-        BigDecimal new_account_balance = ewallet.getBalance().add(transaction.getAmount());
-
-        if (new_account_balance.doubleValue() < 0) {
-//            throw new NegativeAmountException("Withdrawal amount cannot exceed " + wallet.getAccount_balance());
-            throw new Exception("Not enough funds");
-        }
-
-        ewallet.setBalance(new_account_balance);
-        transaction.setAmount(transaction.getAmount().abs());
-        ewallet.addTransaction(transaction);
-        transactionRepository.save(transaction);
-        eWalletRepository.save(ewallet);
-    }
 
 
 
