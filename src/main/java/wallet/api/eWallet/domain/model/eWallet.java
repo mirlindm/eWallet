@@ -1,5 +1,8 @@
 package wallet.api.eWallet.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,19 +15,21 @@ import java.util.List;
  * @author Mirlind Murati
  */
 @Entity
-//@Table(name="eWALLET")
+@Data
+//@Table(name="eWallet")
 public class eWallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Column(name="WALLET_ID")
-    private Long id;
+    Long id;
 
-    //@Column(name="ACCOUNT_BALANCE")
-    private BigDecimal balance;
+   //@Column(name="ACCOUNT_BALANCE")
+    BigDecimal balance;
 
-    @OneToMany
-    private List<Transaction> transactions;
+    @JsonIgnore
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
+    List<Transaction> transactions;
 
     public eWallet() {
        balance = new BigDecimal(0);

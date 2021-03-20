@@ -1,6 +1,6 @@
 package wallet.api.eWallet.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,26 +13,26 @@ import java.math.BigDecimal;
  * @author Mirlind Murati
  */
 @Entity
+@Data
 //@Table(name = "Transaction")
 public class Transaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Column(name="TRANSACTION_ID")
-    private Long id;
+    Long id;
 
     //@Column(name="TRANSACTION_TYPE")
-    private String type;
+    String type;
 
     //@Column(name="TRANSACTION_AMOUNT")
-    private BigDecimal amount;
+    BigDecimal amount;
 
     //@Column(name="TRANSACTION_TIME")
-    private String timestamp;
+    String timestamp;
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name="WALLET_ID")
-    private eWallet wallet;
+    eWallet wallet;
 
     public Transaction() {
 
