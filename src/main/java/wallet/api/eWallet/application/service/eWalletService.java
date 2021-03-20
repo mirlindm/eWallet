@@ -7,6 +7,7 @@ import wallet.api.eWallet.domain.model.Transaction;
 import wallet.api.eWallet.domain.model.eWallet;
 import wallet.api.eWallet.domain.repository.TransactionRepository;
 import wallet.api.eWallet.domain.repository.eWalletRepository;
+import wallet.api.eWallet.rest.eWalletRestController;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * eWallet Service
+ * involves the methods
+ * for corresponding endpoint purpose
+ * {@link eWalletRestController}
+ * {@link eWalletRepository}*
+ *
+ * @author Mirlind Murati
+ */
 @Service
 public class eWalletService {
 
@@ -28,6 +38,13 @@ public class eWalletService {
 
     }
 
+    /**
+     * this is the function for fetching
+     * specific eWallet from the database
+     *
+     * @param id - {@link eWallet} - id of the eWallet to be fetched
+     * @author Mirlind Murati
+     */
     public eWallet getWalletById(Long id) throws Exception {
         eWallet wallet = eWalletRepository.findById(id).
                 orElseThrow(() ->  new Exception("Wallet Not Found!"));
@@ -35,21 +52,40 @@ public class eWalletService {
         return wallet;
     }
 
+    /**
+     * this is the function for
+     * fetching all eWallets
+     * from the database
+     *
+     * @return {@link List<eWallet>}
+     * @author Mirlind Murati
+     */
     public List<eWallet> getAllWallets() throws Exception {
         List<eWallet> wallets = eWalletRepository.findAll();
 
         if(wallets.size() == 0) {
-            throw new Exception("No wallets exist in the database");
+            throw new Exception("No eWallets exist in the database");
         }
 
         return wallets;
     }
 
+    /**
+     * this is the function for creating a new eWallet
+     * from an eWallet request body
+     * stores new eWallet in the database
+     *
+     * @param - {@link eWallet}
+     * @author Mirlind Murati
+     */
     public eWallet createWallet(eWallet eWallet) throws Exception {
-        //wallet.setBalance(eWallet.getBalance());
-        eWalletRepository.save(eWallet);
+        eWallet newWallet = new eWallet();
 
-        return eWallet;
+        newWallet.setBalance(eWallet.getBalance());
+
+        eWalletRepository.save(newWallet);
+
+        return newWallet;
     }
 
     public void createTransaction(Transaction transaction) throws Exception {
