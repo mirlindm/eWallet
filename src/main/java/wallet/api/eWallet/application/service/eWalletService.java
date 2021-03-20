@@ -8,6 +8,10 @@ import wallet.api.eWallet.domain.repository.TransactionRepository;
 import wallet.api.eWallet.domain.repository.eWalletRepository;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class eWalletService {
@@ -18,16 +22,27 @@ public class eWalletService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public boolean hasWallet() {
+    public boolean isElectronicWalletExisting() {
         return eWalletRepository.count() > 0;
     }
 
-    public void createWallet(eWallet wallet) {
+//    public eWallet createWallet(eWallet wallet) {
+//        eWalletRepository.save(wallet);
+//    }
+
+    public eWallet createWallet(eWallet eWallet) throws Exception {
+        eWallet wallet = new eWallet();
+
+        wallet.setBalance(eWallet.getBalance());
+
         eWalletRepository.save(wallet);
+
+        return wallet;
     }
 
     public void createTransaction(Transaction transaction) throws Exception {
-        eWallet ewallet = eWalletRepository.findById((long) 1).get();
+        eWallet ewallet = eWalletRepository.findById(1L).orElse(null);
+
         BigDecimal new_account_balance = ewallet.getBalance().add(transaction.getAmount());
 
         if (new_account_balance.doubleValue() < 0) {
@@ -40,7 +55,6 @@ public class eWalletService {
         ewallet.addTransaction(transaction);
         transactionRepository.save(transaction);
         eWalletRepository.save(ewallet);
-
     }
 
 
