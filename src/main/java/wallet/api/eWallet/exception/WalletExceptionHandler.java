@@ -17,9 +17,9 @@ public class WalletExceptionHandler {
         WalletErrorException error = new WalletErrorException();
         SimpleDateFormat localDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(localDateFormat.format(new Date()));
+        error.setResponseStatus(HttpStatus.BAD_REQUEST.value());
+        error.setExceptionMessage(exc.getMessage());
+        //error.setTimeStamp(localDateFormat.format(new Date()));
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }

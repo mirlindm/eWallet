@@ -7,6 +7,8 @@ import wallet.api.eWallet.domain.model.Transaction;
 import wallet.api.eWallet.domain.model.eWallet;
 import wallet.api.eWallet.domain.repository.TransactionRepository;
 import wallet.api.eWallet.domain.repository.eWalletRepository;
+import wallet.api.eWallet.exception.WalletAlreadyExistingException;
+import wallet.api.eWallet.exception.WalletNotFoundException;
 import wallet.api.eWallet.rest.eWalletRestController;
 
 import java.math.BigDecimal;
@@ -47,7 +49,7 @@ public class eWalletService {
      */
     public eWallet getWalletById(Long id) throws Exception {
         eWallet wallet = eWalletRepository.findById(id).
-                orElseThrow(() ->  new Exception("Wallet Not Found!"));
+                orElseThrow(() ->  new WalletNotFoundException("eWallet Not Found!"));
 
         return wallet;
     }
@@ -64,7 +66,7 @@ public class eWalletService {
         List<eWallet> wallets = eWalletRepository.findAll();
 
         if(wallets.size() == 0) {
-            throw new Exception("No eWallets exist in the database");
+            throw new WalletNotFoundException("No eWallets exist in the database");
         }
 
         return wallets;
@@ -80,6 +82,10 @@ public class eWalletService {
      */
     public eWallet createWallet(eWallet eWallet) throws Exception {
         eWallet newWallet = new eWallet();
+
+        if(eWalletRepository.findById(eWallet.getId()).isPresent()) {
+            throw new WalletAlreadyExistingException("eWallet Already Exists");
+        }
 
         newWallet.setBalance(eWallet.getBalance());
 

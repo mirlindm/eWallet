@@ -1,31 +1,30 @@
 package wallet.api.eWallet.exception;
 
 public class WalletErrorException {
-    private int status;
-    private String message;
-    private String timeStamp;
+    private int responseStatus;
+    private String exceptionMessage;
 
-    public int getStatus() {
-        return status;
+    public int getResponseStatus() {
+        return responseStatus;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setResponseStatus(int responseStatus) {
+        this.responseStatus = responseStatus;
     }
 
-    public String getMessage() {
-        return message;
+    public String getExceptionMessage() {
+        return exceptionMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setExceptionMessage(String exceptionMessage) {
+        this.exceptionMessage = exceptionMessage;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
-    }
+//    public String getTimeStamp() {
+//        return timeStamp;
+//    }
+//
+//    public void setTimeStamp(String timeStamp) {
+//        this.timeStamp = timeStamp;
+//    }
 }
