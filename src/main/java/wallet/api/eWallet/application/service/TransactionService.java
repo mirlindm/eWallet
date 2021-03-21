@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import wallet.api.eWallet.domain.model.Transaction;
 import wallet.api.eWallet.domain.model.eWallet;
 import wallet.api.eWallet.domain.repository.TransactionRepository;
+import wallet.api.eWallet.domain.repository.eWalletRepository;
+import wallet.api.eWallet.exception.InvalidAmountException;
+import wallet.api.eWallet.exception.TransactionNotFoundException;
 import wallet.api.eWallet.rest.eWalletRestController;
 
 import java.math.BigDecimal;
@@ -26,16 +29,20 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    @Autowired
+    private eWalletRepository eWalletRepository;
+
     /**
-     * this is the function for fetching
-     * specific transaction from the database
+     * this is the function for
+     * fetching specific transaction
+     * from the database
      *
      * @param id - {@link Transaction} - id of the Transaction to be fetched
      * @author Mirlind Murati
      */
     public Transaction getTransactionById(Long id) throws Exception {
         Transaction transaction = transactionRepository.findById(id).
-                orElseThrow(() ->  new Exception("Transaction Not Found!"));
+                orElseThrow(() ->  new TransactionNotFoundException("Transaction with id: " + id  + " Not Found!"));
 
         return transaction;
     }
@@ -52,31 +59,36 @@ public class TransactionService {
         List<Transaction> transactions = transactionRepository.findAll();
 
         if(transactions.size() == 0) {
-            throw new Exception("No transactions exist in the database");
+            throw new TransactionNotFoundException("No transactions exist for this eWallet!");
         }
 
         return transactions;
     }
 
     /**
-     * this is the function for creating a new eWallet
-     * from an eWallet request body
-     * stores new eWallet in the database
+     * this is the function for
+     * creating a new transaction
+     * in an eWallet  with a
+     * request body
+     * stores new transaction in the database
      *
-     * @param - {@link eWallet}
+     * @param - {@link Transaction}
      * @author Mirlind Murati
      */
     public Transaction createTransaction(Transaction transaction) throws Exception {
         Transaction transaction1 = new Transaction();
+        eWallet ewallet = eWalletRepository.findById(transaction.getWallet().getId()).orElse(null);
 
-        //eWallet ewallet = eWalletRepository.findById(1L).orElse(null);
-
-        //BigDecimal new_account_balance = ewallet.getBalance().add(transaction.getAmount());
+        BigDecimal new_account_balance = ewallet.getBalance().add(transaction.getAmount());
 
         //if (new_account_balance.doubleValue() < 0) {
 //            throw new NegativeAmountException("Withdrawal amount cannot exceed " + wallet.getAccount_balance());
            // throw new Exception("Not enough funds");
         //}
+
+        if(transaction.getAmount().doubleValue() < 0) {
+            throw new InvalidAmountException("Deposit Amount cannot be less than 1 EUR!");
+        }
 
 
         transaction1.setAmount(transaction.getAmount().abs());
@@ -85,9 +97,9 @@ public class TransactionService {
         transaction1.setTimestamp(transaction.getTimestamp());
         transactionRepository.save(transaction);
 
-        //ewallet.setBalance(new_account_balance);
+        ewallet.setBalance(new_account_balance);
         //ewallet.addTransaction(transaction);
-        //eWalletRepository.save(ewallet);
+        eWalletRepository.save(ewallet);
 
         return transaction1;
     }
