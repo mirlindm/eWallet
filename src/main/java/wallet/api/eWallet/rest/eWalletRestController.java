@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Rest Endpoints controller
+ * Rest Endpoints Controller
+ * Used to define the endpoints
+ * for the eWallet services
+ *
  * Utilizes {@link eWalletService }
  *
  * @author Mirlind Murati
