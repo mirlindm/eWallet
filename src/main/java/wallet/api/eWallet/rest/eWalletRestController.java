@@ -120,7 +120,4 @@ public class eWalletRestController {
 
         return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
     }
-
-
-
 }
