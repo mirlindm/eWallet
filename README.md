@@ -34,9 +34,9 @@ URI                       | HTTP Verb     | Description
 # Exceptions
 There are several custom exceptions implemented for this backend application, in the exception package in src/main/java/wallet/api/eWallet/exception:
 
-InvalidAmountException
-TransactionNotFoundException
-WalletAlreadyExistingException
-WalletErrorException
-WalletExceptionHandler
-WalletNotFoundException
+1. InvalidAmountException
+2. TransactionNotFoundException
+3. WalletAlreadyExistingException
+4. WalletErrorException
+5. WalletExceptionHandler
+6. WalletNotFoundException
