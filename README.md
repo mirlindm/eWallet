@@ -1,4 +1,4 @@
-Digital Wallet Application created with Spring Boot (Rest API) for the Backend and React.js for the Frontend side.
+# Digital Wallet Application created with Spring Boot (Rest API) for the Backend and React.js for the Frontend side.
 
 The frontend Repo can be found here: https://github.com/mirlindm/eWalletFrontend
 
@@ -16,3 +16,27 @@ URI                       | HTTP Verb     | Description
 /eWallet/transcations     | GET           | Retrieves a list of all transactions
 /eWallet/transactions     | POST          | Creates a new transaction
 /eWallet/transactions     | PUT           | Updates an existing transaction based on its request body
+
+
+
+
+# How to Run the Backend App
+1. Clone this repository via: git clone https://github.com/mirlindm/eWallet.git
+
+2. Run mvn clean package on the command line to download all the maven dependencies.
+
+3. Open and Run the Application using IntelliJ or your preferred IDE.
+
+4. The application will run on localhost:8080 on the browser. 
+4.1. You can change the port number in /src/main/resources/application.properties, where you can modify the server.port property as per your needs.
+
+
+# Exceptions
+There are several custom exceptions implemented for this backend application, in the exception package in src/main/java/wallet/api/eWallet/exception:
+
+InvalidAmountException
+TransactionNotFoundException
+WalletAlreadyExistingException
+WalletErrorException
+WalletExceptionHandler
+WalletNotFoundException
