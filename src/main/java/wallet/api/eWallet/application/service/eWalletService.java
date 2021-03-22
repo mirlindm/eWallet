@@ -80,18 +80,49 @@ public class eWalletService {
      * @param - {@link eWallet}
      * @author Mirlind Murati
      */
-    public eWallet createWallet(eWallet eWallet) throws Exception {
+    public eWallet createWallet() throws Exception {
         eWallet newWallet = new eWallet();
 
-        if(eWalletRepository.findById(eWallet.getId()).isPresent()) {
-            throw new WalletAlreadyExistingException("eWallet Already Exists");
-        }
+        newWallet.setBalance(new BigDecimal("0.0"));
+        eWalletRepository.save(newWallet);
+
+        return newWallet;
+    }
+
+    /**
+     * this is the function for
+     * updating specific eWallet balance
+     * updates and stores new eWallet in the database
+     *
+     *
+     * @param - {@link eWallet}
+     * @author Mirlind Murati
+     */
+    public eWallet updateWallet(eWallet eWallet) {
+        eWallet newWallet = eWalletRepository.findById(eWallet.getId())
+                .orElseThrow(null);
 
         newWallet.setBalance(eWallet.getBalance());
 
         eWalletRepository.save(newWallet);
-
         return newWallet;
+    }
+
+    /**
+     * this is the function for deleting
+     * a specific eWallet from the database
+     *
+     * @param id - {@link eWallet} - id of the eWallet to be deleted
+     * @return {@link eWallet} - the deleted eWallet
+     * @author Mirlind Murati
+     */
+    public eWallet deleteWallet(Long id) throws Exception {
+        eWallet eWallet = eWalletRepository.findById(id)
+                .orElseThrow(null);
+        //() -> new ResourceNotFoundException("\n No Vendor found with id : " + id)
+
+        eWalletRepository.deleteById(eWallet.getId());
+        return eWallet;
     }
 
 

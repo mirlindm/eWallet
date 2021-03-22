@@ -104,4 +104,42 @@ public class TransactionService {
         return transaction1;
     }
 
+    /**
+     * this is the function for
+     * updating a transaction
+     * in an eWallet with a
+     * request body
+     * stores new transaction in the database
+     *
+     * @param - {@link Transaction}
+     * @author Mirlind Murati
+     */
+    public Transaction updateTransaction(Transaction transaction) throws Exception {
+
+        Transaction newTransaction = new Transaction();
+        eWallet ewallet = eWalletRepository.findById(transaction.getWallet().getId()).orElse(null);
+
+        BigDecimal new_account_balance = ewallet.getBalance().subtract(transaction.getAmount());
+
+        if (new_account_balance.doubleValue() < 0) {
+            throw new InvalidAmountException("Withdrawal amount cannot exceed " + ewallet.getBalance());
+        }
+
+        if(transaction.getAmount().doubleValue() < 0) {
+            throw new InvalidAmountException("Withdrawal Amount cannot be less than 1 EUR!");
+        }
+
+
+        newTransaction.setAmount(transaction.getAmount().abs());
+        newTransaction.setType(transaction.getType());
+        newTransaction.setWallet(transaction.getWallet());
+        newTransaction.setTimestamp(transaction.getTimestamp());
+        transactionRepository.save(transaction);
+
+        ewallet.setBalance(new_account_balance);
+        eWalletRepository.save(ewallet);
+
+        return newTransaction;
+    }
+
 }

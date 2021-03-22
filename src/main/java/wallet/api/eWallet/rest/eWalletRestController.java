@@ -67,8 +67,8 @@ public class eWalletRestController {
      * @author Mirlind Murati
      */
     @PostMapping("/wallets")
-    public ResponseEntity<eWallet> createWallet(@RequestBody eWallet wallet) throws Exception {
-        eWallet newWallet = eWalletService.createWallet(wallet);
+    public ResponseEntity<eWallet> createWallet() throws Exception {
+        eWallet newWallet = eWalletService.createWallet();
 
         return new ResponseEntity<>(newWallet, HttpStatus.CREATED);
 
@@ -82,6 +82,20 @@ public class eWalletRestController {
 //
 //            return newWallet;
         //}
+    }
+
+    /**
+     * end-point method for deleting an eWallet
+     *
+     * @param id - ID of eWallet to be deleted
+     * @return Deleted eWallet
+     * @author Mirlind Murati
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<eWallet> deleteWalletById(@PathVariable("id") Long id) throws Exception {
+        eWallet eWallet = eWalletService.deleteWallet(id);
+
+        return new ResponseEntity<>(eWallet, HttpStatus.OK);
     }
 
     /**
@@ -122,5 +136,19 @@ public class eWalletRestController {
         Transaction newTransaction = transactionService.createTransaction(transaction);
 
         return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
+    }
+
+    /**
+     * end-point method for
+     * updating (withdrawing) a transaction
+     *
+     * @return updated Transaction
+     * @author Mirlind Murati
+     */
+    @PutMapping("/transactions")
+    public ResponseEntity<Transaction> updateTransaction(@RequestBody Transaction transaction) throws Exception {
+        Transaction newTransaction = transactionService.updateTransaction(transaction);
+
+        return new ResponseEntity<>(newTransaction, HttpStatus.OK);
     }
 }

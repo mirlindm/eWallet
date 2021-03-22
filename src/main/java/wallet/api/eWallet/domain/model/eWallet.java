@@ -35,6 +35,11 @@ public class eWallet {
        balance = new BigDecimal(0);
     }
 
+    public eWallet(long l, BigDecimal bigDecimal) {
+        this.id = l;
+        this.balance = bigDecimal;
+    }
+
     public Long getId() {
         return id;
     }
